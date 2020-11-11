@@ -1,0 +1,46 @@
+image: danieletorelli/sbt-adoptopenjdk-alpine
+
+variables:
+  SBT_OPTS: "-Dsbt.global.base=sbt-cache/sbtboot -Dsbt.boot.directory=sbt-cache/boot -Dsbt.ivy.home=sbt-cache/ivy"
+  COURSIER_CACHE: sbt-cache/coursier  # only needed if you use coursier
+
+cache:
+  # key: "$CI_BUILD_REF_NAME"   # separate cache per branch
+  untracked: false
+  paths:
+    - "target"
+    - "sbt-cache/ivy/cache"
+    - "sbt-cache/boot"
+    - "sbt-cache/sbtboot"
+    - "sbt-cache/target"
+    - "sbt-cache/coursier"
+
+stages:
+  - check
+  - compile
+  - test
+  - coverage
+
+after_script:
+  - find sbt-cache/ivy/cache -name "ivydata-*.properties" -print -delete
+  - find sbt-cache -name "*.lock" -print -delete
+
+check:
+  stage: check
+  script:
+    - sbt fmtCheck
+
+compile:
+  stage: compile
+  script:
+    - sbt compile test:compile
+
+test:
+  stage: test
+  script:
+    - sbt coverage test
+
+coverage:
+  stage: coverage
+  script:
+    - sbt coverageAggregate

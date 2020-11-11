@@ -1,0 +1,32 @@
+image: bitbucketpipelines/scala-sbt:scala-2.12
+
+pipelines:
+  default:
+    - step:
+        name: Check format
+        caches:
+          - sbt
+          - ivy2
+        script:
+          - sbt fmtCheck
+    - step:
+        name: Build
+        caches:
+          - sbt 
+          - ivy2
+        script:
+          - sbt compile test:compile
+    - step:
+        name: Test
+        caches:
+          - sbt 
+          - ivy2
+        script:
+          - sbt coverage test
+    - step:
+        name: Coverage
+        caches:
+          - sbt
+          - ivy2
+        script:
+          - sbt coverageAggregate

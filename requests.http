@@ -1,0 +1,45 @@
+### Root route
+
+GET http://localhost:8080/
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+
+client.test("Response content-type is text/plain", function() {
+  var type = response.contentType.mimeType;
+  client.assert(type === "text/plain", "Expected 'text/plain' but got '" + type + "'");
+});
+
+client.test("Response body is Welcome", function() {
+  var payload = response.body
+  client.assert(payload === "Welcome", "Expected 'Welcome' but got '" + payload + "'");
+});
+%}
+
+### Cashflow route
+
+POST http://localhost:8080/cashflows
+Content-Type: application/json
+
+< src/test/resources/cashflow.json
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+
+client.test("Response content-type is application/json", function() {
+  var type = response.contentType.mimeType;
+  client.assert(type === "application/json", "Expected 'application/json' but got '" + type + "'");
+});
+
+client.test("Response body contains expected APR and IRR values", function() {
+  var payload = response.body
+  var apr = payload.apr
+  var irr = payload.irr
+  client.assert(apr === 48.3, "Expected '48.3' but got '" + apr + "'");
+  client.assert(irr === 0.0334008783, "Expected '0.0334008783' but got '" + irr + "'");
+});
+%}
