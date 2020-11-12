@@ -1,4 +1,4 @@
-[![Build Status](https://api.travis-ci.org/danieletorelli/loan-cashflows-api.png?branch=master)](https://travis-ci.org/danieletorelli/loan-cashflows-api)
+![Build Status](https://github.com/danieletorelli/loan-cashflows-api/workflows/Scala%20CI/badge.svg?branch=master)
 
 
 Challenge
