@@ -1,6 +1,6 @@
-package it.mdtorelli.cashflows.financial
+package it.mdtorelli.cashflows.financial.dummy
 
-import it.mdtorelli.cashflows.financial.dummy.{DummyAPRCalculator, DummyIRRCalculator}
+import it.mdtorelli.cashflows.financial.CalculatorFixture
 import it.mdtorelli.cashflows.model.Decimal
 import it.mdtorelli.cashflows.model.Implicits._
 import it.mdtorelli.cashflows.util.BaseSpec

@@ -1,6 +1,6 @@
-package it.mdtorelli.cashflows.financial
+package it.mdtorelli.cashflows.financial.convergence
 
-import it.mdtorelli.cashflows.financial.convergence._
+import it.mdtorelli.cashflows.financial.{APRCalculator, CalculatorFixture, IRRCalculator}
 import it.mdtorelli.cashflows.model.Implicits._
 import it.mdtorelli.cashflows.util.BaseSpec
 
