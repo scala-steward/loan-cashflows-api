@@ -21,7 +21,9 @@ pull_request_rules:
       - "label=mergify:squash"
       - "label!=WIP"
       - "label!=do-not-merge"
-      - status-success=build
+      - status-success=format
+      - status-success=compile
+      - status-success=test
     actions:
       merge:
         method: squash
@@ -35,7 +37,9 @@ pull_request_rules:
       - "label=mergify:merge"
       - "label!=WIP"
       - "label!=do-not-merge"
-      - status-success=build
+      - status-success=format
+      - status-success=compile
+      - status-success=test
     actions:
       merge:
         method: merge
