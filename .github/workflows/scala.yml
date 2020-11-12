@@ -42,4 +42,8 @@ jobs:
       - name: Test
         run: sbt coverage test
       - name: Check coverage
-        run: sbt coverageAggregate
+        run: sbt coverageReport
+      - name: Upload report to codecov
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        run: bash <(curl -s https://codecov.io/bash)
