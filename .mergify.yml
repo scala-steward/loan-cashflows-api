@@ -1,10 +1,45 @@
 pull_request_rules:
-  - name: Automatic merge on approval
+
+  - name: Approve and label scala-steward's PRs
     conditions:
+      - author=scala-steward
+      - head~=^update/
+    actions:
+      label:
+        add:
+          - dependency-update
+          - mergify:squash
+      review:
+        type: APPROVE
+        message: "Conditional approval of a dependency update"
+
+  - name: Squash PRs into develop
+    conditions:
+      - base=master
       - "#approved-reviews-by>=1"
+      - "#changes-requested-reviews-by=0"
+      - "label=mergify:squash"
+      - "label!=WIP"
+      - "label!=do-not-merge"
+      - status-success=build
     actions:
       merge:
         method: squash
+        strict: true
+
+  - name: Merge PRs into master
+    conditions:
+      - base=master
+      - "#approved-reviews-by>=1"
+      - "#changes-requested-reviews-by=0"
+      - "label=mergify:merge"
+      - "label!=WIP"
+      - "label!=do-not-merge"
+      - status-success=build
+    actions:
+      merge:
+        method: merge
+        strict: true
 
   - name: Delete head branch on merge
     conditions:
@@ -12,4 +47,3 @@ pull_request_rules:
     actions:
       delete_head_branch:
         force: false
-
