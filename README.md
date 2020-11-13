@@ -19,7 +19,7 @@ The main class is: `it.mdtorelli.cashflows.Main`.
 sbt run
 ```
 
-On run, the server will reply to `http://0.0.0.0:8080`.
+On run, the server will bind at: `http://0.0.0.0:8080`.
 
 Docker
 ------

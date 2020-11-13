@@ -9,7 +9,7 @@ lazy val root = (project in file(".")).commonSettings.coverageSettings.dockerSet
     mainClass in (Compile, run) := Some("it.mdtorelli.cashflows.Main"),
     libraryDependencies ++= akkaHttp,
     libraryDependencies += cats,
-    libraryDependencies += scalaTest % Test)
+    libraryDependencies += scalaTest)
 
 addCommandAlias("fmt", "; scalafmt; scalafmtSbt; test:scalafmt")
 addCommandAlias("fmtCheck", "; scalafmtCheck; scalafmtSbtCheck; test:scalafmtCheck")
