@@ -40,6 +40,17 @@ package object adt {
 
     type MonadThrowableError[F[_]] = MonadError[F, Throwable]
 
+    private object TypeConstraints {
+      trait NotSubTypeOf[A, B]
+      implicit def isSub[A, B]: A NotSubTypeOf B = null
+      @scala.annotation.implicitAmbiguous("Violated type constraint: ${A} is a subtype of ${B}")
+      implicit def iSubAmbig1[A, B >: A]: A NotSubTypeOf B = null
+      implicit def iSubAmbig2[A, B >: A]: A NotSubTypeOf B = null
+      type ¬[T] = {
+        type λ[U] = U NotSubTypeOf T
+      }
+    }
+
     private def recoverAllToErrorOr[A](details: Option[String]): PartialFunction[Throwable, ErrorOr[A]] = {
       case ex: InterruptedException => AsyncOperationInterruptedError(details, ex.some).left
       case ex: TimeoutException     => AsyncOperationTimedOutError(details, ex.some).left
@@ -72,5 +83,11 @@ package object adt {
         }
       }
     }
+
+    def successful[F[_]: MonadThrowableError, A: TypeConstraints.¬[ApplicationError]#λ](x: => A): F[ErrorOr[A]] =
+      x.rightF
+
+    def failed[F[_]: MonadThrowableError, A](x: => ApplicationError): F[ErrorOr[A]] =
+      x.leftF
   }
 }

@@ -9,6 +9,22 @@ import scala.concurrent.{ExecutionException, TimeoutException}
 final class ErrorOrSpec extends BaseSpec with OptionValues {
   behavior of "ErrorOr"
 
+  "successful" should "be a right" in {
+    ErrorOr.successful((): Unit).resolveRight shouldBe a[Unit]
+  }
+
+  it should "not compile for ApplicationError" in {
+    """ErrorOr.successful(GenericError("BOOM!"))""" shouldNot compile
+  }
+
+  "failed" should "be a left" in {
+    ErrorOr.failed(GenericError("BOOM!")).resolveLeft shouldBe a[GenericError]
+  }
+
+  it should "not compile for anything different than ApplicationError" in {
+    """ErrorOr.failed((): Unit)""" shouldNot compile
+  }
+
   "pure" should "execute the operation successfully" in {
     ErrorOr.pure((): Unit).resolveRight shouldBe a[Unit]
   }
