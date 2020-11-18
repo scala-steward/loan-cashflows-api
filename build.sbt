@@ -1,7 +1,7 @@
 import Dependencies._
 import Settings._
 
-ThisBuild / version := "1.0.0"
+ThisBuild / version := "1.1.0"
 
 lazy val root = (project in file(".")).commonSettings.coverageSettings.dockerSettings
   .settings(
