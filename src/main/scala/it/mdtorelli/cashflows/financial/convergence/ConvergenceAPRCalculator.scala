@@ -28,7 +28,7 @@ private final class ConvergenceAPRCalculator[F[_]: Monad](implicit convergenceF:
   override def compute(cashFlow: CashFlow): F[ErrorOr[APR]] = {
     println(show"Calculating APR for: $cashFlow")
 
-    val startingDate = cashFlow.schedule.head.date.minusDays(30)
+    lazy val startingDate = cashFlow.schedule.head.date.minusDays(30)
     def t(date: LocalDate): BigDecimal = yearFractionFrom(startingDate)(date)
 
     def apr(x: BigDecimal): BigDecimal =
