@@ -34,6 +34,7 @@ jobs:
         run: sbt compile test:compile
 
   test:
+    needs: compile
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -90,3 +91,7 @@ jobs:
           docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
 
+          if [ "$VERSION" != "latest" ]; then
+            docker tag $IMAGE_NAME $IMAGE_ID:latest
+            docker push $IMAGE_ID:latest
+          fi
