@@ -1,9 +1,7 @@
 import Dependencies._
 import Settings._
 
-ThisBuild / version := "1.1.0"
-
-lazy val root = (project in file(".")).commonSettings.coverageSettings.dockerSettings
+lazy val root = (project in file(".")).commonSettings.gitSettings.coverageSettings.dockerSettings
   .settings(
     name := "loan-cashflows-api",
     mainClass in (Compile, run) := Some("it.mdtorelli.cashflows.Main"),

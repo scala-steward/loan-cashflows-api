@@ -1,3 +1,5 @@
+import com.typesafe.sbt.GitPlugin.autoImport._
+import com.typesafe.sbt.GitVersioning
 import com.typesafe.sbt.packager.Keys.{daemonUser, daemonUserUid, maintainer}
 import com.typesafe.sbt.packager.archetypes.JavaServerAppPackaging
 import com.typesafe.sbt.packager.docker.DockerPlugin.autoImport._
@@ -43,6 +45,9 @@ object Settings {
       project
         .enablePlugins(ScalafmtPlugin)
         .settings(scalafmtOnCompile := false)
+
+    def gitSettings: Project =
+      project.enablePlugins(GitVersioning).settings(git.useGitDescribe := true)
 
     def coverageSettings: Project =
       project.settings(
