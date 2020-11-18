@@ -5,9 +5,9 @@ import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.testkit.ScalatestRouteTest
 import cats.Id
 import it.mdtorelli.cashflows.adt.Implicits._
+import it.mdtorelli.cashflows.adt.ToFuture.Implicits.idInstance
 import it.mdtorelli.cashflows.adt._
 import it.mdtorelli.cashflows.api.APIServerHandlers
-import it.mdtorelli.cashflows.api.ToFutureInstances.idInstance
 import it.mdtorelli.cashflows.api.json.{CashFlowJsonSupport, ComputationResultJsonSupport}
 import it.mdtorelli.cashflows.financial.dummy.{DummyAPRCalculator, DummyIRRCalculator}
 import it.mdtorelli.cashflows.financial.{APRCalculator, IRRCalculator}

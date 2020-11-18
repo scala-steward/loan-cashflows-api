@@ -9,7 +9,7 @@ import it.mdtorelli.cashflows.services.CashFlowService
 import scala.concurrent.{ExecutionContext, Future}
 
 object Main extends App {
-  import it.mdtorelli.cashflows.api.ToFutureInstances.futureInstance
+  import it.mdtorelli.cashflows.adt.ToFuture.Implicits.futureInstance
 
   implicit val system: ActorSystem = ActorSystem("LoanCashflowsApi")
   implicit val executionContext: ExecutionContext = system.dispatcher
