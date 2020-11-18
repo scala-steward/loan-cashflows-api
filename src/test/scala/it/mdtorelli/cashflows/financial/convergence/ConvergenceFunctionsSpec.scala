@@ -4,14 +4,11 @@ import it.mdtorelli.cashflows.model.Decimal
 import it.mdtorelli.cashflows.model.Implicits._
 import it.mdtorelli.cashflows.util.BaseSpec
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.duration._
+import scala.util.Try
 
 final class ConvergenceFunctionsSpec extends BaseSpec {
   import ConvergeFunctionBehaviors._
   import ConvergenceFunctions._
-
-  override implicit val patienceConfig: PatienceConfig = PatienceConfig(2.seconds)
 
   behavior of "Iterative Steffensen"
 
@@ -32,7 +29,7 @@ final class ConvergenceFunctionsSpec extends BaseSpec {
   private object ConvergeFunctionBehaviors {
     private final val scale = 10
 
-    final def aConvergeFunctionUsing(convergenceFunction: ConvergenceFunction): Unit = {
+    final def aConvergeFunctionUsing(convergenceFunction: ConvergenceFunction[Try]): Unit = {
       def resultFor(f: BigDecimal => BigDecimal): Decimal =
         convergenceFunction.converge(f).resolveRight.withScale(scale)
       def scaledDecimal(x: BigDecimal): Decimal = x.toDecimal(scale)

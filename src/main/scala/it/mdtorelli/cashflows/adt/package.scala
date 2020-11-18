@@ -2,7 +2,7 @@ package it.mdtorelli.cashflows
 
 import cats.Show
 
-import scala.concurrent.{ExecutionContext, ExecutionException, Future, TimeoutException}
+import scala.concurrent.{ExecutionException, TimeoutException}
 
 package object adt {
   object ApplicationError {
@@ -30,29 +30,47 @@ package object adt {
   }
 
   type ErrorOr[+A] = Either[ApplicationError, A]
-  type AsyncErrorOr[+A] = Future[ErrorOr[A]]
 
   object ErrorOr {
+    import cats.MonadError
+    import cats.syntax.applicativeError._
+    import cats.syntax.functor._
     import cats.syntax.option._
     import it.mdtorelli.cashflows.adt.Implicits._
 
-    private def recoverAllToErrorOr[A](details: Option[String]): PartialFunction[Throwable, AsyncErrorOr[A]] = {
-      case ex: InterruptedException => AsyncOperationInterruptedError(details, ex.some).leftFuture
-      case ex: TimeoutException     => AsyncOperationTimedOutError(details, ex.some).leftFuture
-      case ex: ExecutionException   => recoverAllToErrorOr(details)(ex.getCause)
-      case ex: Throwable            => GenericError(ex.getMessage, details, ex.some).leftFuture
+    type MonadThrowableError[F[_]] = MonadError[F, Throwable]
+
+    private def recoverAllToErrorOr[A](details: Option[String]): PartialFunction[Throwable, ErrorOr[A]] = {
+      case ex: InterruptedException => AsyncOperationInterruptedError(details, ex.some).left
+      case ex: TimeoutException     => AsyncOperationTimedOutError(details, ex.some).left
+      case ex: ExecutionException   => recoverAllToErrorOr(details).apply(ex.getCause)
+      case ex: Throwable            => GenericError(ex.getMessage, details, ex.some).left
     }
 
-    def fromFutureWithDetails[A](details: String)(x: Future[A])(implicit ec: ExecutionContext): AsyncErrorOr[A] =
-      x.map(_.right).recoverWith(recoverAllToErrorOr[A](details.some))
+    def fromFWithDetails[F[_]: MonadThrowableError, A](details: String)(x: => F[A]): F[ErrorOr[A]] =
+      x.map(_.right).recover(recoverAllToErrorOr(details.some))
 
-    def fromFuture[A](x: Future[A])(implicit ec: ExecutionContext): AsyncErrorOr[A] =
-      x.map(_.right).recoverWith(recoverAllToErrorOr[A](none))
+    def fromF[F[_]: MonadThrowableError, A](x: => F[A]): F[ErrorOr[A]] =
+      x.map(_.right).recover(recoverAllToErrorOr(none))
 
-    def asyncWithDetails[A](details: String)(x: => A)(implicit ec: ExecutionContext): AsyncErrorOr[A] =
-      ErrorOr.fromFutureWithDetails(details)(Future(x))
+    def withDetails[F[_]: MonadThrowableError, A](details: String)(x: => A): F[ErrorOr[A]] = {
+      val m = implicitly[MonadThrowableError[F]]
+      ErrorOr.fromFWithDetails(details) {
+        try m.pure(x)
+        catch {
+          case t: Throwable => m.raiseError(t)
+        }
+      }
+    }
 
-    def async[A](x: => A)(implicit ec: ExecutionContext): AsyncErrorOr[A] =
-      ErrorOr.fromFuture(Future(x))
+    def pure[F[_]: MonadThrowableError, A](x: => A): F[ErrorOr[A]] = {
+      val m = implicitly[MonadThrowableError[F]]
+      ErrorOr.fromF {
+        try m.pure(x)
+        catch {
+          case t: Throwable => m.raiseError(t)
+        }
+      }
+    }
   }
 }

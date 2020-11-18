@@ -18,12 +18,12 @@ private object CompletionDirectives {
 trait CompletionDirectives {
   self: Directives with JsonSupport =>
 
-  protected final def completeWith[T: ToEntityMarshaller, A](
-    f: AsyncErrorOr[T],
+  protected final def completeF[F[_]: ToFuture, T: ToEntityMarshaller](
+    f: F[ErrorOr[T]],
     recoverWith: PartialFunction[ApplicationError, T] = PartialFunction.empty,
     statusCodeErrorHandler: PartialFunction[ApplicationError, StatusCode] = PartialFunction.empty,
     responseStatusCode: StatusCode = StatusCodes.OK
-  ): Route = onComplete(f) {
+  ): Route = onComplete(ToFuture[F].toFuture(f)) {
     case Success(Right(value))                                             =>
       complete(responseStatusCode -> value)
     case Success(Left(error)) if recoverWith.isDefinedAt(error)            =>
@@ -33,6 +33,6 @@ trait CompletionDirectives {
     case Success(Left(error))                                              =>
       complete(defaultStatusCodeErrorHandler(error) -> error)
     case Failure(ex)                                                       =>
-      throw ex // Handled by the global exception handler in this trait
+      throw ex
   }
 }

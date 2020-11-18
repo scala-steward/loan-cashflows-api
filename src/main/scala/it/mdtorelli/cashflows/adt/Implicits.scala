@@ -1,28 +1,27 @@
 package it.mdtorelli.cashflows.adt
 
+import cats.Monad
 import cats.data.EitherT
-import cats.implicits._
-
-import scala.concurrent.Future
+import cats.syntax.either._
 
 object Implicits {
   implicit final class AnyErrorOps[A](val value: A) extends AnyVal {
     def right: ErrorOr[A] = value.asRight[ApplicationError]
 
-    def rightFuture: AsyncErrorOr[A] = value.right.asFuture
+    def rightF[F[_]: Monad]: F[ErrorOr[A]] = Monad[F].pure(value.right)
+
+    def rightT[F[_]: Monad]: EitherT[F, ApplicationError, A] = EitherT(rightF)
   }
 
   implicit final class ApplicationErrorOps(val value: ApplicationError) extends AnyVal {
     def left[A]: ErrorOr[A] = value.asLeft
 
-    def leftFuture[A]: AsyncErrorOr[A] = value.left.asFuture
+    def leftF[F[_]: Monad, A]: F[ErrorOr[A]] = Monad[F].pure(value.left)
+
+    def leftT[F[_]: Monad, A]: EitherT[F, ApplicationError, A] = EitherT(leftF)
   }
 
   implicit final class ErrorOrOps[A](val value: ErrorOr[A]) extends AnyVal {
-    def asFuture: AsyncErrorOr[A] = Future.successful(value)
-
-    def eitherT: EitherT[Future, ApplicationError, A] = asFuture.eitherT
-
     def asSome: ErrorOr[Option[A]] = value.map(Some.apply)
 
     def onRight[B](f: A => B): ErrorOr[A] =

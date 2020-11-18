@@ -4,9 +4,9 @@ import it.mdtorelli.cashflows.api.json.{CashFlowJsonSupport, ComputationResultJs
 import it.mdtorelli.cashflows.model.{APR, CashFlow, ComputationResult, IRR}
 import it.mdtorelli.cashflows.util.ResourceLoader
 
-trait CalculatorFixture extends ResourceLoader with CashFlowJsonSupport with ComputationResultJsonSupport {
-  protected val aprCalculator: APRCalculator
-  protected val irrCalculator: IRRCalculator
+trait CalculatorFixture[F[_]] extends ResourceLoader with CashFlowJsonSupport with ComputationResultJsonSupport {
+  protected def aprCalculator: APRCalculator[F]
+  protected def irrCalculator: IRRCalculator[F]
 
   private final val computationResult = parseJsonResource("computation-result.json").convertTo[ComputationResult]
   protected final lazy val cashFlow = parseJsonResource("cashflow.json").convertTo[CashFlow]

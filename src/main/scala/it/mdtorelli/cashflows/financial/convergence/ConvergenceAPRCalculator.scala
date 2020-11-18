@@ -2,17 +2,16 @@ package it.mdtorelli.cashflows.financial.convergence
 
 import java.time.LocalDate
 
+import cats.Monad
 import cats.syntax.show._
-import it.mdtorelli.cashflows.adt.AsyncErrorOr
+import it.mdtorelli.cashflows.adt.ErrorOr
 import it.mdtorelli.cashflows.adt.Implicits._
 import it.mdtorelli.cashflows.financial.APRCalculator
 import it.mdtorelli.cashflows.model.Implicits._
 import it.mdtorelli.cashflows.model._
 
-import scala.concurrent.ExecutionContext
-
 object ConvergenceAPRCalculator {
-  def apply(implicit convergenceF: ConvergenceFunction, ec: ExecutionContext): APRCalculator =
+  def apply[F[_]: Monad](implicit convergenceF: ConvergenceFunction[F]): APRCalculator[F] =
     new ConvergenceAPRCalculator
 
   private def f(a: BigDecimal, x: BigDecimal, tn: BigDecimal): BigDecimal =
@@ -21,12 +20,12 @@ object ConvergenceAPRCalculator {
   private def yearFractionFrom(d1: LocalDate)(d2: LocalDate): BigDecimal =
     (java.time.temporal.ChronoUnit.DAYS.between(d1, d2) + 0.41666d) / (365d + 1d / 4d)
 }
-private final class ConvergenceAPRCalculator(implicit convergenceF: ConvergenceFunction, ec: ExecutionContext)
-    extends APRCalculator {
+private final class ConvergenceAPRCalculator[F[_]: Monad](implicit convergenceF: ConvergenceFunction[F])
+    extends APRCalculator[F] {
   import ConvergenceAPRCalculator.{f, yearFractionFrom}
 
   // 0 = - S + A + SUM(n: 1, N)(An * (1 + x / 100)^-tn)
-  override def compute(cashFlow: CashFlow): AsyncErrorOr[APR] = {
+  override def compute(cashFlow: CashFlow): F[ErrorOr[APR]] = {
     println(show"Calculating APR for: $cashFlow")
 
     val startingDate = cashFlow.schedule.head.date.minusDays(30)
@@ -39,7 +38,7 @@ private final class ConvergenceAPRCalculator(implicit convergenceF: ConvergenceF
         }.sum
 
     (
-      if (cashFlow.schedule.isEmpty) Decimal.Zero.right.eitherT
+      if (cashFlow.schedule.isEmpty) Decimal.Zero.rightT[F]
       else convergenceF.converge(apr).eitherT
     ).map(_.toAPR).value
   }

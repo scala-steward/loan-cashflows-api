@@ -1,6 +1,7 @@
 package it.mdtorelli.cashflows.financial.dummy
 
-import it.mdtorelli.cashflows.financial.CalculatorFixture
+import cats.Id
+import it.mdtorelli.cashflows.financial.{APRCalculator, CalculatorFixture, IRRCalculator}
 import it.mdtorelli.cashflows.model.Decimal
 import it.mdtorelli.cashflows.model.Implicits._
 import it.mdtorelli.cashflows.util.BaseSpec
@@ -18,11 +19,11 @@ final class DummyCalculatorsSpec extends BaseSpec {
     irrCalculator.compute(cashFlow).resolveRight.scaled shouldEqual expectedIRR.scaled
   }
 
-  private sealed trait Fixture extends CalculatorFixture {
+  private sealed trait Fixture extends CalculatorFixture[Id] {
     override protected final val expectedAPR = Decimal(38.345).toAPR
     override protected final val expectedIRR = Decimal(0.0234008783).toIRR
 
-    override protected final lazy val aprCalculator = DummyAPRCalculator
-    override protected final lazy val irrCalculator = DummyIRRCalculator
+    override protected final lazy val aprCalculator: APRCalculator[Id] = DummyAPRCalculator[Id]
+    override protected final lazy val irrCalculator: IRRCalculator[Id] = DummyIRRCalculator[Id]
   }
 }
