@@ -54,6 +54,8 @@ object Settings {
           "it.mdtorelli.cashflows.adt.ApplicationError.*",
           "it.mdtorelli.cashflows.api.APIServer",
           "it.mdtorelli.cashflows.adt.Implicits.*",
+          "it.mdtorelli.cashflows.adt.ErrorOr.TypeConstraints.*",
+          "it.mdtorelli.cashflows.adt.ToFuture.Implicits.*",
           "it.mdtorelli.cashflows.model.Implicits.*").mkString(";"))
 
     def dockerSettings: Project = {
