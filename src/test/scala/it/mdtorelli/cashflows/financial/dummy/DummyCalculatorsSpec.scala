@@ -1,12 +1,12 @@
 package it.mdtorelli.cashflows.financial.dummy
 
 import cats.Id
-import it.mdtorelli.cashflows.financial.{APRCalculator, CalculatorFixture, IRRCalculator}
+import it.mdtorelli.cashflows.financial.{APRCalculator, CalculatorFixtures, IRRCalculator}
 import it.mdtorelli.cashflows.model.Decimal
 import it.mdtorelli.cashflows.model.Implicits._
 import it.mdtorelli.cashflows.util.BaseSpec
 
-final class DummyCalculatorsSpec extends BaseSpec {
+final class DummyCalculatorsSpec extends BaseSpec with CalculatorFixtures {
   behavior of "DummyAPRCalculator"
 
   it should "compute expected APR successfully" in new Fixture {
@@ -19,7 +19,7 @@ final class DummyCalculatorsSpec extends BaseSpec {
     irrCalculator.compute(cashFlow).resolveRight.scaled shouldEqual expectedIRR.scaled
   }
 
-  private sealed trait Fixture extends CalculatorFixture[Id] {
+  private sealed trait Fixture extends APRCalculatorFixture[Id] with IRRCalculatorFixture[Id] {
     override protected final val expectedAPR = Decimal(38.345).toAPR
     override protected final val expectedIRR = Decimal(0.0234008783).toIRR
 
