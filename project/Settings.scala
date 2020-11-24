@@ -73,7 +73,7 @@ object Settings {
         .enablePlugins(JavaServerAppPackaging)
         .enablePlugins(DockerPlugin)
         .settings(
-          dockerBaseImage := "adoptopenjdk/openjdk8:alpine-slim",
+          dockerBaseImage := "adoptopenjdk/openjdk8:alpine-jre",
           dockerUpdateLatest := true,
           dockerExposedPorts := Seq(8080),
           daemonUserUid in Docker := None,
