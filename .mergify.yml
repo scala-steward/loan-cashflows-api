@@ -23,7 +23,7 @@ pull_request_rules:
       - "label!=do-not-merge"
       - status-success=format
       - "status-success~=compile \\([0-9]+\\)"
-      - "status-success=test \\([0-9]+\\)"
+      - "status-success~=test \\([0-9]+\\)"
     actions:
       merge:
         method: squash
@@ -38,8 +38,8 @@ pull_request_rules:
       - "label!=WIP"
       - "label!=do-not-merge"
       - status-success=format
-      - "status-success=compile \\([0-9]+\\)"
-      - "status-success=test \\([0-9]+\\)"
+      - "status-success~=compile \\([0-9]+\\)"
+      - "status-success~=test \\([0-9]+\\)"
     actions:
       merge:
         method: merge
