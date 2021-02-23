@@ -4,7 +4,7 @@ object Dependencies {
   private object Versions {
     val cats = "2.4.2"
     val akkaHttp = "10.2.3"
-    val akka = "2.6.12"
+    val akka = "2.6.13"
     val scalaTest = "3.2.5"
   }
 
