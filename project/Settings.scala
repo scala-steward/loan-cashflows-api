@@ -14,7 +14,6 @@ import scoverage.ScoverageKeys.{coverageExcludedPackages, coverageFailOnMinimum,
 object Settings {
   private val _organization = "it.mdtorelli"
   private val _organizationName = "MDT"
-  private val _scalaVersion = "2.13.5"
   private val _scalacOptions = Seq(
     "-Wconf:cat=deprecation:w",
     "-Wconf:cat=feature:w",
@@ -38,7 +37,7 @@ object Settings {
         .settings(
           organization := _organization,
           organizationName := _organizationName,
-          scalaVersion := _scalaVersion,
+          scalaVersion := Versions.scala,
           scalacOptions ++= _scalacOptions)
 
     def scalafmtSettings: Project =

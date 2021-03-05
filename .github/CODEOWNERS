@@ -1,5 +1,5 @@
 *                                   @danieletorelli
-project/Dependencies.scala          @mergify
+project/Versions.scala              @mergify
 project/plugins.sbt                 @mergify
 project/project/plugins.sbt         @mergify
 project/build.properties            @mergify
