@@ -1,16 +1,18 @@
 package it.mdtorelli.cashflows.api
 
+import it.mdtorelli.cashflows.adt.{AsyncOperationInterruptedError, AsyncOperationTimedOutError, ErrorOr, GenericError}
+import it.mdtorelli.cashflows.adt.ToFuture.Implicits.tryInstance
+import it.mdtorelli.cashflows.api.json.ComputationResultJsonSupport
+import it.mdtorelli.cashflows.model.{ComputationResult, Decimal}
+import it.mdtorelli.cashflows.model.Implicits._
+import it.mdtorelli.cashflows.util.BaseSpec
+
+import cats.instances.try_._
+import spray.json._
+
 import akka.http.scaladsl.model.{ContentTypes, StatusCodes}
 import akka.http.scaladsl.server.{Directives, Route}
 import akka.http.scaladsl.testkit.ScalatestRouteTest
-import cats.instances.try_._
-import it.mdtorelli.cashflows.adt.ToFuture.Implicits.tryInstance
-import it.mdtorelli.cashflows.adt.{AsyncOperationInterruptedError, AsyncOperationTimedOutError, ErrorOr, GenericError}
-import it.mdtorelli.cashflows.api.json.ComputationResultJsonSupport
-import it.mdtorelli.cashflows.model.Implicits._
-import it.mdtorelli.cashflows.model.{ComputationResult, Decimal}
-import it.mdtorelli.cashflows.util.BaseSpec
-import spray.json._
 
 final class CompletionDirectivesSpec extends BaseSpec with ScalatestRouteTest {
   behavior of "CompletionDirectives"

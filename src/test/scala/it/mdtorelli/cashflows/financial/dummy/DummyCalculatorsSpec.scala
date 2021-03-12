@@ -1,10 +1,11 @@
 package it.mdtorelli.cashflows.financial.dummy
 
-import cats.Id
 import it.mdtorelli.cashflows.financial.{APRCalculator, CalculatorFixtures, IRRCalculator}
 import it.mdtorelli.cashflows.model.Decimal
 import it.mdtorelli.cashflows.model.Implicits._
 import it.mdtorelli.cashflows.util.BaseSpec
+
+import cats.Id
 
 final class DummyCalculatorsSpec extends BaseSpec with CalculatorFixtures {
   behavior of "DummyAPRCalculator"

@@ -1,7 +1,8 @@
 package it.mdtorelli.cashflows.api.json
 
-import it.mdtorelli.cashflows.model.Implicits._
 import it.mdtorelli.cashflows.model._
+import it.mdtorelli.cashflows.model.Implicits._
+
 import spray.json._
 
 trait ComputationResultJsonSupport extends JsonSupport {

@@ -1,9 +1,10 @@
 package it.mdtorelli.cashflows.api.json
 
-import java.time.LocalDate
-
 import it.mdtorelli.cashflows.model._
+
 import spray.json._
+
+import java.time.LocalDate
 
 trait CashFlowJsonSupport extends JsonSupport {
   import DefaultJsonProtocol._

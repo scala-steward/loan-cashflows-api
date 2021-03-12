@@ -1,9 +1,10 @@
 package it.mdtorelli.cashflows.util
 
 import it.mdtorelli.cashflows.adt.{ApplicationError, ErrorOr}
+
+import org.scalatest.{Assertion, EitherValues, TryValues}
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
-import org.scalatest.{Assertion, EitherValues, TryValues}
 
 import scala.util.Try
 

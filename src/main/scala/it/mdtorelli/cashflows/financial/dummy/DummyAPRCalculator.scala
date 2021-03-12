@@ -1,11 +1,12 @@
 package it.mdtorelli.cashflows.financial.dummy
 
-import cats.Monad
 import it.mdtorelli.cashflows.adt.ErrorOr
 import it.mdtorelli.cashflows.adt.Implicits._
 import it.mdtorelli.cashflows.financial.APRCalculator
-import it.mdtorelli.cashflows.model.Implicits._
 import it.mdtorelli.cashflows.model.{APR, CashFlow, Decimal}
+import it.mdtorelli.cashflows.model.Implicits._
+
+import cats.Monad
 
 object DummyAPRCalculator {
   def apply[F[_]: Monad]: DummyAPRCalculator[F] = new DummyAPRCalculator

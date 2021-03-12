@@ -1,9 +1,11 @@
 package it.mdtorelli.cashflows.api.json
 
-import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import it.mdtorelli.cashflows.adt.ApplicationError
 import it.mdtorelli.cashflows.model.Decimal
+
 import spray.json._
+
+import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 
 object JsonSupport extends JsonSupport
 

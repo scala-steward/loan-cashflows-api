@@ -1,10 +1,11 @@
 package it.mdtorelli.cashflows.api
 
-import akka.http.scaladsl.model._
-import akka.http.scaladsl.server.Directives.complete
-import akka.http.scaladsl.server._
 import it.mdtorelli.cashflows.adt.GenericError
 import it.mdtorelli.cashflows.api.json.JsonSupport._
+
+import akka.http.scaladsl.model._
+import akka.http.scaladsl.server._
+import akka.http.scaladsl.server.Directives.complete
 
 trait APIServerHandlers {
   protected implicit final val rejectionHandler: RejectionHandler =

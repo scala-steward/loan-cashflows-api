@@ -1,13 +1,15 @@
 package it.mdtorelli.cashflows.api.route
 
-import akka.http.scaladsl.model.{ContentTypes, StatusCodes}
-import akka.http.scaladsl.server.Route
-import akka.http.scaladsl.testkit.ScalatestRouteTest
 import it.mdtorelli.cashflows.adt.GenericError
 import it.mdtorelli.cashflows.api.APIServerHandlers
 import it.mdtorelli.cashflows.api.json.JsonSupport
 import it.mdtorelli.cashflows.util.BaseSpec
+
 import spray.json._
+
+import akka.http.scaladsl.model.{ContentTypes, StatusCodes}
+import akka.http.scaladsl.server.Route
+import akka.http.scaladsl.testkit.ScalatestRouteTest
 
 final class RootRouteSpec extends BaseSpec with ScalatestRouteTest {
   behavior of "RootRoute"

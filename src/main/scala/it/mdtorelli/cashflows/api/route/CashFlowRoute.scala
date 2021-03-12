@@ -1,11 +1,12 @@
 package it.mdtorelli.cashflows.api.route
 
-import akka.http.scaladsl.server.{Directives, Route}
 import it.mdtorelli.cashflows.adt.ToFuture
 import it.mdtorelli.cashflows.api.CompletionDirectives
 import it.mdtorelli.cashflows.api.json.{CashFlowJsonSupport, ComputationResultJsonSupport}
 import it.mdtorelli.cashflows.model._
 import it.mdtorelli.cashflows.services.CashFlowService
+
+import akka.http.scaladsl.server.{Directives, Route}
 
 object CashFlowRoute {
   def apply[F[_]: ToFuture](cashFlowService: CashFlowService[F]): Route =

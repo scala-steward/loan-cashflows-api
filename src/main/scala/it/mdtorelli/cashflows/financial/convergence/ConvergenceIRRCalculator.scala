@@ -1,12 +1,13 @@
 package it.mdtorelli.cashflows.financial.convergence
 
-import cats.Monad
-import cats.syntax.show._
 import it.mdtorelli.cashflows.adt.ErrorOr
 import it.mdtorelli.cashflows.adt.Implicits._
 import it.mdtorelli.cashflows.financial.IRRCalculator
-import it.mdtorelli.cashflows.model.Implicits._
 import it.mdtorelli.cashflows.model._
+import it.mdtorelli.cashflows.model.Implicits._
+
+import cats.Monad
+import cats.syntax.show._
 
 object ConvergenceIRRCalculator {
   def apply[F[_]: Monad](implicit convergenceF: ConvergenceFunction[F]): IRRCalculator[F] =

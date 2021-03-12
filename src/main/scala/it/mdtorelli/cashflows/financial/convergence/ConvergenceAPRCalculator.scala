@@ -1,14 +1,15 @@
 package it.mdtorelli.cashflows.financial.convergence
 
-import java.time.LocalDate
-
-import cats.Monad
-import cats.syntax.show._
 import it.mdtorelli.cashflows.adt.ErrorOr
 import it.mdtorelli.cashflows.adt.Implicits._
 import it.mdtorelli.cashflows.financial.APRCalculator
-import it.mdtorelli.cashflows.model.Implicits._
 import it.mdtorelli.cashflows.model._
+import it.mdtorelli.cashflows.model.Implicits._
+
+import cats.Monad
+import cats.syntax.show._
+
+import java.time.LocalDate
 
 object ConvergenceAPRCalculator {
   def apply[F[_]: Monad](implicit convergenceF: ConvergenceFunction[F]): APRCalculator[F] =

@@ -1,7 +1,8 @@
 package it.mdtorelli.cashflows.adt
 
-import cats.instances.try_._
 import it.mdtorelli.cashflows.util.BaseSpec
+
+import cats.instances.try_._
 import org.scalatest.OptionValues
 
 import scala.concurrent.{ExecutionException, TimeoutException}

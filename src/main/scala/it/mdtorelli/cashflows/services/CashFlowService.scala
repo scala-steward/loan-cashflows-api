@@ -1,10 +1,11 @@
 package it.mdtorelli.cashflows.services
 
-import cats.Monad
 import it.mdtorelli.cashflows.adt.ErrorOr
 import it.mdtorelli.cashflows.adt.Implicits._
 import it.mdtorelli.cashflows.financial.{APRCalculator, IRRCalculator}
 import it.mdtorelli.cashflows.model.{CashFlow, ComputationResult}
+
+import cats.Monad
 
 object CashFlowService {
   def apply[F[_]: Monad](apr: APRCalculator[F], irr: IRRCalculator[F]): CashFlowService[F] =

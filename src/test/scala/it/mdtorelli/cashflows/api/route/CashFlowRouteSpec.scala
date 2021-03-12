@@ -1,21 +1,23 @@
 package it.mdtorelli.cashflows.api.route
 
+import it.mdtorelli.cashflows.adt._
+import it.mdtorelli.cashflows.adt.Implicits._
+import it.mdtorelli.cashflows.adt.ToFuture.Implicits.idInstance
+import it.mdtorelli.cashflows.api.APIServerHandlers
+import it.mdtorelli.cashflows.api.json.{CashFlowJsonSupport, ComputationResultJsonSupport}
+import it.mdtorelli.cashflows.financial.{APRCalculator, IRRCalculator}
+import it.mdtorelli.cashflows.financial.dummy.{DummyAPRCalculator, DummyIRRCalculator}
+import it.mdtorelli.cashflows.model._
+import it.mdtorelli.cashflows.model.Implicits._
+import it.mdtorelli.cashflows.services.CashFlowService
+import it.mdtorelli.cashflows.util.{BaseSpec, ResourceLoader}
+
+import cats.Id
+import spray.json._
+
 import akka.http.scaladsl.model.{ContentTypes, StatusCodes}
 import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.testkit.ScalatestRouteTest
-import cats.Id
-import it.mdtorelli.cashflows.adt.Implicits._
-import it.mdtorelli.cashflows.adt.ToFuture.Implicits.idInstance
-import it.mdtorelli.cashflows.adt._
-import it.mdtorelli.cashflows.api.APIServerHandlers
-import it.mdtorelli.cashflows.api.json.{CashFlowJsonSupport, ComputationResultJsonSupport}
-import it.mdtorelli.cashflows.financial.dummy.{DummyAPRCalculator, DummyIRRCalculator}
-import it.mdtorelli.cashflows.financial.{APRCalculator, IRRCalculator}
-import it.mdtorelli.cashflows.model.Implicits._
-import it.mdtorelli.cashflows.model._
-import it.mdtorelli.cashflows.services.CashFlowService
-import it.mdtorelli.cashflows.util.{BaseSpec, ResourceLoader}
-import spray.json._
 
 final class CashFlowRouteSpec extends BaseSpec with ScalatestRouteTest {
   behavior of "CashFlowRoute"

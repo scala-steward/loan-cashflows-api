@@ -5,7 +5,7 @@ import cats.data.EitherT
 import cats.syntax.either._
 
 object Implicits {
-  implicit final class AnyErrorOps[A](val value: A) extends AnyVal {
+  implicit final class AnyErrorOps[A](private val value: A) extends AnyVal {
     def right: ErrorOr[A] = value.asRight[ApplicationError]
 
     def rightF[F[_]: Monad]: F[ErrorOr[A]] = Monad[F].pure(value.right)
@@ -13,7 +13,7 @@ object Implicits {
     def rightT[F[_]: Monad]: EitherT[F, ApplicationError, A] = EitherT(rightF)
   }
 
-  implicit final class ApplicationErrorOps(val value: ApplicationError) extends AnyVal {
+  implicit final class ApplicationErrorOps(private val value: ApplicationError) extends AnyVal {
     def left[A]: ErrorOr[A] = value.asLeft
 
     def leftF[F[_]: Monad, A]: F[ErrorOr[A]] = Monad[F].pure(value.left)
@@ -21,7 +21,7 @@ object Implicits {
     def leftT[F[_]: Monad, A]: EitherT[F, ApplicationError, A] = EitherT(leftF)
   }
 
-  implicit final class ErrorOrOps[A](val value: ErrorOr[A]) extends AnyVal {
+  implicit final class ErrorOrOps[A](private val value: ErrorOr[A]) extends AnyVal {
     def asSome: ErrorOr[Option[A]] = value.map(Some.apply)
 
     def onRight[B](f: A => B): ErrorOr[A] =
@@ -42,7 +42,7 @@ object Implicits {
     }
   }
 
-  implicit final class ErrorOrFOps[F[_], A](val value: F[ErrorOr[A]]) extends AnyVal {
+  implicit final class ErrorOrFOps[F[_], A](private val value: F[ErrorOr[A]]) extends AnyVal {
     def eitherT: EitherT[F, ApplicationError, A] = EitherT(value)
   }
 }
