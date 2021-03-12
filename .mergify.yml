@@ -11,9 +11,8 @@ pull_request_rules:
           - mergify:squash
       review:
         type: APPROVE
-        message: "Conditional approval of a dependency update"
 
-  - name: Squash PRs into develop
+  - name: Squash PRs into master
     conditions:
       - base=master
       - "#approved-reviews-by>=1"
