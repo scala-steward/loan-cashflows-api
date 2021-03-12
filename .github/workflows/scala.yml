@@ -27,7 +27,7 @@ jobs:
           ~/.sbt
         key: ${{ runner.os }}-sbt-${{ hashFiles('**/build.sbt') }}
     - name: Check format
-      run: sbt fmtCheck
+      run: sbt fixCheck fmtCheck
 
   compile:
     runs-on: ubuntu-latest

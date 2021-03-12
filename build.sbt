@@ -9,5 +9,7 @@ lazy val root = (project in file(".")).commonSettings.gitSettings.coverageSettin
     libraryDependencies += cats,
     libraryDependencies += scalaTest)
 
+addCommandAlias("fix", "; compile:scalafix; test:scalafix")
 addCommandAlias("fmt", "; scalafmt; scalafmtSbt; test:scalafmt")
+addCommandAlias("fixCheck", "; compile:scalafix --check; test:scalafix --check")
 addCommandAlias("fmtCheck", "; scalafmtCheck; scalafmtSbtCheck; test:scalafmtCheck")

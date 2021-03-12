@@ -8,7 +8,7 @@ pipelines:
           - sbt
           - ivy2
         script:
-          - sbt fmtCheck
+          - sbt fixCheck fmtCheck
     - step:
         name: Build
         caches:

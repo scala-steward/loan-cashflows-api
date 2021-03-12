@@ -28,7 +28,7 @@ after_script:
 check:
   stage: check
   script:
-    - sbt fmtCheck
+    - sbt fixCheck fmtCheck
 
 compile:
   stage: compile

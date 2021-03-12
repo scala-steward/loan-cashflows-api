@@ -3,7 +3,7 @@ language: scala
 jdk: openjdk8
 
 script:
-  - sbt fmtCheck
+  - sbt fixCheck fmtCheck
   - sbt compile test:compile
   - sbt coverage test
   - sbt coverageAggregate

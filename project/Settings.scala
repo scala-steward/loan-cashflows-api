@@ -5,10 +5,12 @@ import com.typesafe.sbt.packager.archetypes.JavaServerAppPackaging
 import com.typesafe.sbt.packager.docker.DockerPlugin.autoImport._
 import com.typesafe.sbt.packager.docker.{Cmd, CmdLike, DockerPlugin}
 import com.typesafe.sbt.packager.universal.UniversalPlugin.autoImport._
+import org.scalafmt.sbt.ScalafmtPlugin
 import org.scalafmt.sbt.ScalafmtPlugin.autoImport.scalafmtOnCompile
-import org.scalafmt.sbt._
 import sbt.Keys._
 import sbt._
+import scalafix.sbt.ScalafixPlugin
+import scalafix.sbt.ScalafixPlugin.autoImport._
 import scoverage.ScoverageKeys.{coverageExcludedPackages, coverageFailOnMinimum, coverageMinimum}
 
 object Settings {
@@ -44,6 +46,15 @@ object Settings {
       project
         .enablePlugins(ScalafmtPlugin)
         .settings(scalafmtOnCompile := false)
+
+    def scalafixSettings: Project =
+      project
+        .enablePlugins(ScalafixPlugin)
+        .settings(
+          scalafixOnCompile := true,
+          semanticdbEnabled := true,
+          semanticdbVersion := scalafixSemanticdb.revision,
+          ThisBuild / scalafixDependencies += Dependencies.scalafixOrganizeImports)
 
     def gitSettings: Project =
       project.enablePlugins(GitVersioning).settings(git.useGitDescribe := true)
@@ -87,7 +98,7 @@ object Settings {
     }
 
     def commonSettings: Project =
-      project.minimalSettings.scalafmtSettings
+      project.minimalSettings.scalafmtSettings.scalafixSettings
         .settings(
           fork in (Test, run) := true,
           parallelExecution in Test := true,
