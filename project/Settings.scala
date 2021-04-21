@@ -86,11 +86,11 @@ object Settings {
           dockerBaseImage := "adoptopenjdk/openjdk8:alpine-jre",
           dockerUpdateLatest := true,
           dockerExposedPorts := Seq(8080),
-          daemonUserUid in Docker := None,
-          daemonUser in Docker := runAsUser,
-          maintainer in Docker := organization.value,
-          version in Docker := version.value,
-          javaOptions in Universal := Seq(
+          Docker / daemonUserUid := None,
+          Docker / daemonUser := runAsUser,
+          Docker / maintainer := organization.value,
+          Docker / version := version.value,
+          Universal / javaOptions := Seq(
             "-J-XX:MinRAMPercentage=20.0",
             "-J-XX:MaxRAMPercentage=80.0",
             "-J-XshowSettings:vm"),
@@ -100,10 +100,10 @@ object Settings {
     def commonSettings: Project =
       project.minimalSettings.scalafmtSettings.scalafixSettings
         .settings(
-          fork in (Test, run) := true,
-          parallelExecution in Test := true,
+          Test / run / fork := true,
+          Test / parallelExecution := true,
           // Avoid generating scaladoc documentation files on sbt dist, decreasing the size of the build
-          sources in (Compile, doc) := Seq.empty,
-          publishArtifact in (Compile, packageDoc) := false)
+          Compile / doc / sources := Seq.empty,
+          Compile / packageDoc / publishArtifact := false)
   }
 }
