@@ -11,7 +11,11 @@ import sbt.Keys._
 import sbt._
 import scalafix.sbt.ScalafixPlugin
 import scalafix.sbt.ScalafixPlugin.autoImport._
-import scoverage.ScoverageKeys.{coverageExcludedPackages, coverageFailOnMinimum, coverageMinimum}
+import scoverage.ScoverageSbtPlugin.autoImport.{
+  coverageExcludedPackages,
+  coverageFailOnMinimum,
+  coverageMinimumStmtTotal
+}
 
 object Settings {
   private val _organization = "it.mdtorelli"
