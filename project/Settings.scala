@@ -61,7 +61,7 @@ object Settings {
 
     def coverageSettings: Project =
       project.settings(
-        coverageMinimum := 90,
+        coverageMinimumStmtTotal := 90,
         coverageFailOnMinimum := true,
         coverageExcludedPackages := Seq(
           "<empty>",
