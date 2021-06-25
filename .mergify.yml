@@ -7,7 +7,7 @@ pull_request_rules:
     actions:
       label:
         add:
-          - dependency-update
+          - dependencies
           - mergify:squash
       review:
         type: APPROVE
