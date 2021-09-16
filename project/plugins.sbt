@@ -7,4 +7,4 @@ addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.9.0")
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-git" % "1.0.1")
 
-addSbtPlugin("ch.epfl.scala" % "sbt-scalafix" % "0.9.30")
+addSbtPlugin("ch.epfl.scala" % "sbt-scalafix" % "0.9.31")
