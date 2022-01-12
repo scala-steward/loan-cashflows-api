@@ -1,5 +1,13 @@
-pull_request_rules:
+queue_rules:
+  - name: default
+    conditions:
+      - "label!=WIP"
+      - "label!=do-not-merge"
+      - status-success=format
+      - "status-success~=compile \\([0-9]+\\)"
+      - "status-success~=test \\([0-9]+\\)"
 
+pull_request_rules:
   - name: Approve and label scala-steward's PRs
     conditions:
       - author=scala-steward
@@ -18,15 +26,10 @@ pull_request_rules:
       - "#approved-reviews-by>=1"
       - "#changes-requested-reviews-by=0"
       - "label=mergify:squash"
-      - "label!=WIP"
-      - "label!=do-not-merge"
-      - status-success=format
-      - "status-success~=compile \\([0-9]+\\)"
-      - "status-success~=test \\([0-9]+\\)"
     actions:
-      merge:
+      queue:
         method: squash
-        strict: true
+        name: default
 
   - name: Merge PRs into master
     conditions:
@@ -34,15 +37,10 @@ pull_request_rules:
       - "#approved-reviews-by>=1"
       - "#changes-requested-reviews-by=0"
       - "label=mergify:merge"
-      - "label!=WIP"
-      - "label!=do-not-merge"
-      - status-success=format
-      - "status-success~=compile \\([0-9]+\\)"
-      - "status-success~=test \\([0-9]+\\)"
     actions:
-      merge:
+      queue:
         method: merge
-        strict: true
+        name: default
 
   - name: Delete head branch on merge
     conditions:
