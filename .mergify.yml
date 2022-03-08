@@ -20,6 +20,18 @@ pull_request_rules:
       review:
         type: APPROVE
 
+  - name: Approve and label Dependabot's PRs
+    conditions:
+      - author=dependabot
+      - head~=^dependabot/
+    actions:
+      label:
+        add:
+          - dependencies
+          - mergify:squash
+      review:
+        type: APPROVE
+
   - name: Squash PRs into master
     conditions:
       - base=master
