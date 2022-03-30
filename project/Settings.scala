@@ -1,5 +1,5 @@
-import com.typesafe.sbt.GitPlugin.autoImport._
-import com.typesafe.sbt.GitVersioning
+import com.github.sbt.git.GitPlugin.autoImport._
+import com.github.sbt.git.GitVersioning
 import com.typesafe.sbt.packager.Keys.{daemonUser, daemonUserUid, maintainer}
 import com.typesafe.sbt.packager.archetypes.JavaServerAppPackaging
 import com.typesafe.sbt.packager.docker.DockerPlugin.autoImport._
