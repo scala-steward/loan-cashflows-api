@@ -28,8 +28,8 @@ object ConvergenceFunctions {
 
           while (f0.abs > tolerance) {
             val f1 = f(x0 + f0)
-            val g = f1 / f0 - 1
-            x0 = x0 - f0 / g
+            val g = (f1 / f0) - 1
+            x0 = x0 - (f0 / g)
             f0 = f(x0)
           }
 
