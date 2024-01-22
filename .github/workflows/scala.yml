@@ -21,7 +21,7 @@ jobs:
         distribution: temurin
         java-version: 17
     - name: Cache SBT
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: |
           ~/.ivy2/cache
@@ -43,7 +43,7 @@ jobs:
           distribution: temurin
           java-version: ${{ matrix.java }}
       - name: Cache SBT
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.ivy2/cache
@@ -66,7 +66,7 @@ jobs:
           distribution: temurin
           java-version: ${{ matrix.java }}
       - name: Cache SBT
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.ivy2/cache
@@ -89,7 +89,7 @@ jobs:
           distribution: temurin
           java-version: 17
       - name: Cache SBT
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.ivy2/cache
