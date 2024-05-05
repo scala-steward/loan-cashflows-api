@@ -3,7 +3,7 @@ scalafmtConfig := file(".scalafmt.conf")
 
 addSbtPlugin("com.github.sbt" % "sbt-native-packager" % "1.10.0")
 
-addSbtPlugin("org.scoverage" % "sbt-scoverage" % "2.0.11")
+addSbtPlugin("org.scoverage" % "sbt-scoverage" % "2.0.12")
 
 addSbtPlugin("com.github.sbt" % "sbt-git" % "2.0.1")
 
