@@ -1,11 +1,30 @@
 queue_rules:
-  - name: default
-    conditions:
+  - name: default-merge-queue
+    queue_conditions:
+      - base=master
+      - "#approved-reviews-by>=1"
+      - "#changes-requested-reviews-by=0"
+      - "label=mergify:merge"
+    merge_conditions:
       - "label!=WIP"
       - "label!=do-not-merge"
       - status-success=format
       - "status-success~=compile \\([0-9]+\\)"
       - "status-success~=test \\([0-9]+\\)"
+    merge_method: merge
+  - name: default-squash-queue
+    queue_conditions:
+      - base=master
+      - "#approved-reviews-by>=1"
+      - "#changes-requested-reviews-by=0"
+      - "label=mergify:squash"
+    merge_conditions:
+      - "label!=WIP"
+      - "label!=do-not-merge"
+      - status-success=format
+      - "status-success~=compile \\([0-9]+\\)"
+      - "status-success~=test \\([0-9]+\\)"
+    merge_method: squash
 
 pull_request_rules:
   - name: Approve and label scala-steward's PRs
@@ -19,6 +38,8 @@ pull_request_rules:
           - mergify:squash
       review:
         type: APPROVE
+      queue:
+        name: default-merge-queue
 
   - name: Approve and label Dependabot's PRs
     conditions:
@@ -31,28 +52,8 @@ pull_request_rules:
           - mergify:squash
       review:
         type: APPROVE
-
-  - name: Squash PRs into master
-    conditions:
-      - base=master
-      - "#approved-reviews-by>=1"
-      - "#changes-requested-reviews-by=0"
-      - "label=mergify:squash"
-    actions:
       queue:
-        method: squash
-        name: default
-
-  - name: Merge PRs into master
-    conditions:
-      - base=master
-      - "#approved-reviews-by>=1"
-      - "#changes-requested-reviews-by=0"
-      - "label=mergify:merge"
-    actions:
-      queue:
-        method: merge
-        name: default
+        name: default-squash-queue
 
   - name: Delete head branch on merge
     conditions:
