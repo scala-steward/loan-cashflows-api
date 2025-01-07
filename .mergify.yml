@@ -39,7 +39,7 @@ pull_request_rules:
       review:
         type: APPROVE
       queue:
-        name: default-merge-queue
+        name: default-squash-queue
 
   - name: Approve and label Dependabot's PRs
     conditions:
