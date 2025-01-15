@@ -1,4 +1,4 @@
-addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.5.2")
+addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.5.3")
 scalafmtConfig := file(".scalafmt.conf")
 
 addSbtPlugin("com.github.sbt" % "sbt-native-packager" % "1.11.0")
