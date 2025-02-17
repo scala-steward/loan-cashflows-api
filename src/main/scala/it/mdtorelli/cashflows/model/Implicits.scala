@@ -22,9 +22,9 @@ object Implicits {
   }
   implicit val cashFlowShow: Show[CashFlow] = Show.show { x =>
     show"""|(
-           |principal=${x.principal}, 
-           |upfrontFee=${x.upfrontFee}, 
-           |upfrontCreditLineFee=${x.upfrontCreditlineFee}, 
+           |principal=${x.principal},
+           |upfrontFee=${x.upfrontFee},
+           |upfrontCreditLineFee=${x.upfrontCreditlineFee},
            |schedule=${x.schedule}
            |)""".stripMargin.replaceAll("\n", "")
   }
